@@ -41,7 +41,7 @@ module.exports = (robot) ->
             #{body.photos[value].name}
             by 500px@#{body.photos[value].user.username}
             https://500px.com#{body.photos[value].url}
-            \#500px \#cat \#猫 \#ネコ \#ねこ
+            \#cat2pics \#500px \#cat \#猫 \#ネコ \#ねこ
           """
           callback(null, tweet)
         )

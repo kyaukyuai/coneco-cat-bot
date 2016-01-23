@@ -37,7 +37,7 @@ module.exports = (robot) ->
           tweet = """
             #{text}...
             #{link}
-            \#instagram \#cat \#猫 \#ネコ \#ねこ
+            \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
           """
           callback(null, tweet)
         )
