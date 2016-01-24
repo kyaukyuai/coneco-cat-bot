@@ -19,8 +19,8 @@ module.exports = (robot) ->
   do_tweet = ->
     async.series({
       search: (callback) ->
-        conecoUrl  = 'http://coneco.cat2.pics/api/v1/cats/like'
-        randomPage = random [0..30]
+        conecoUrl  = 'http://coneco.cat2.pics/api/v1/cats/ranking'
+        randomPage = random [1..5]
         conecoUrl += '?page=' + randomPage
         console.log("search: #{conecoUrl}")
         coneco_client = request_json.createClient(conecoUrl)
@@ -38,6 +38,7 @@ module.exports = (robot) ->
             #{text}...
             #{link}
             \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
+            http://coneco.cat.pics/ranking/total
           """
           callback(null, tweet)
         )
