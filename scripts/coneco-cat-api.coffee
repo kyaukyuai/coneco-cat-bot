@@ -36,9 +36,8 @@ module.exports = (robot) ->
             ).pipe(fs.createWriteStream('./images/coneco_saved.jpg'))
           tweet = """
             #{text}...
-            #{link}
-            \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
             http://coneco.cat.pics/ranking/total
+            \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
           """
           callback(null, tweet)
         )
