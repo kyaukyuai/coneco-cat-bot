@@ -36,7 +36,7 @@ module.exports = (robot) ->
             ).pipe(fs.createWriteStream('./images/coneco_saved.jpg'))
           tweet = """
             #{text}...
-            http://coneco.cat.pics/ranking/total
+            http://coneco.cat2.pics/ranking/total
             \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
           """
           callback(null, tweet)
@@ -45,7 +45,7 @@ module.exports = (robot) ->
         setTimeout(
           () ->
             callback(null, 'post')
-          , 10000
+          , 30000
         )
     }, (err, result) ->
       b64img = fs.readFileSync('./images/coneco_saved.jpg', { encoding: 'base64' })
@@ -58,7 +58,7 @@ module.exports = (robot) ->
     )
 
   cronjob = new cronJob(
-    cronTime: '0 0 * * * *'
+    cronTime: '0 40 * * * *'
     start: true
     timeZone: "Asia/Tokyo"
     onTick: ->
