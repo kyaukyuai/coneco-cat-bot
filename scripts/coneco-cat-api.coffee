@@ -20,23 +20,25 @@ module.exports = (robot) ->
     async.series({
       search: (callback) ->
         conecoUrl  = 'http://coneco.cat2.pics/api/v1/cats/ranking'
-        randomPage = random [1..5]
+        randomPage = random [1..10]
         conecoUrl += '?page=' + randomPage
         console.log("search: #{conecoUrl}")
         coneco_client = request_json.createClient(conecoUrl)
         coneco_client.get('', (err, res, body) ->
           value       = random [0..body.length-1]
           console.log("value: #{value}")
-          image_url   = body[value].image_url
-          text        = body[value].text
-          tags        = body[value].tags
-          link        = body[value].link
+          id        = body[value].id
+          image_url = body[value].image_url
+          text      = body[value].text
+          console.log(id)
+          console.log(image_url)
+          console.log(text)
           request.get(image_url)
             .on('response', (res) ->
             ).pipe(fs.createWriteStream('./images/coneco_saved.jpg'))
           tweet = """
             #{text}...
-            http://coneco.cat2.pics/ranking/total
+            http://coneco.cat2.pics/cat/#{id}
             \#cat2pics \#instagram \#cat \#猫 \#ネコ \#ねこ
           """
           callback(null, tweet)
