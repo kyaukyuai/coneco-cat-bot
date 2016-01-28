@@ -20,7 +20,7 @@ module.exports = (robot) ->
     async.series({
       search: (callback) ->
         conecoUrl  = 'http://coneco.cat2.pics/api/v1/cats/ranking'
-        randomPage = random [1..10]
+        randomPage = random [1..30]
         conecoUrl += '?page=' + randomPage
         console.log("search: #{conecoUrl}")
         coneco_client = request_json.createClient(conecoUrl)
@@ -29,7 +29,7 @@ module.exports = (robot) ->
           console.log("value: #{value}")
           id        = body[value].id
           image_url = body[value].image_url
-          text      = body[value].text
+          text      = body[value].text.substr(0, 50)
           console.log(id)
           console.log(image_url)
           console.log(text)
