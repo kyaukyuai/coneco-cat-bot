@@ -25,7 +25,7 @@ module.exports = (robot) ->
     )
 
   cronjob = new cronJob(
-    cronTime: "0 0 * * * *"
+    cronTime: "0 0 7,15,23 * * *"
     start: true
     timeZone: "Asia/Tokyo"
     onTick: ->
