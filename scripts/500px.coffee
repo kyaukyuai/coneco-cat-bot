@@ -36,7 +36,7 @@ module.exports = (robot) ->
         _500px_client.get('', (err, res, body) ->
           request.get(body.photos[value].image_url)
             .on('response', (res) ->
-            ).pipe(fs.createWriteStream('./images/500px_saved.jpg'))
+            ).pipe(fs.createWriteStream('./500px_saved.jpg'))
           tweet = """
             #{body.photos[value].name}
             by 500px@#{body.photos[value].user.username}
@@ -52,7 +52,7 @@ module.exports = (robot) ->
           , 5000
         )
     }, (err, result) ->
-      b64img = fs.readFileSync('./images/500px_saved.jpg', { encoding: 'base64' })
+      b64img = fs.readFileSync('./500px_saved.jpg', { encoding: 'base64' })
       @clientForImage.post('media/upload', { media_data: b64img }, (err, data, res) ->
         mediaIdStr = data.media_id_string
         params = { status: result.search, media_ids: [mediaIdStr] }

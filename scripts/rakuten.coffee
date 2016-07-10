@@ -43,11 +43,11 @@ module.exports = (robot) ->
           image_url_2 = if body.Items[value].Item.mediumImageUrls[1] then body.Items[value].Item.mediumImageUrls[1].imageUrl else ''
           request.get(image_url_1)
             .on('response', (res) ->
-            ).pipe(fs.createWriteStream('./images/rakuten_saved_1.jpg'))
+            ).pipe(fs.createWriteStream('./rakuten_saved_1.jpg'))
           if image_url_2
             request.get(image_url_2)
               .on('response', (res) ->
-              ).pipe(fs.createWriteStream('./images/rakuten_saved_2.jpg'))
+              ).pipe(fs.createWriteStream('./rakuten_saved_2.jpg'))
           tweet = """
             【#{searchWord} グッズ】
             #{item_price}
@@ -64,8 +64,8 @@ module.exports = (robot) ->
           , 10000
         )
     }, (err, result) ->
-      b64img_1 = fs.readFileSync('./images/rakuten_saved_1.jpg', { encoding: 'base64' })
-      b64img_2 = fs.readFileSync('./images/rakuten_saved_2.jpg', { encoding: 'base64' })
+      b64img_1 = fs.readFileSync('./rakuten_saved_1.jpg', { encoding: 'base64' })
+      b64img_2 = fs.readFileSync('./rakuten_saved_2.jpg', { encoding: 'base64' })
       @clientForImage.post('media/upload', { media_data: b64img_1 }, (err, data, res) ->
         mediaIdStr1 = data.media_id_string
         @clientForImage.post('media/upload', { media_data: b64img_2 }, (err, data, res) ->

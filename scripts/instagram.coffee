@@ -32,7 +32,7 @@ module.exports = (robot) ->
         instagram_client.get('', (err, res, body) ->
           request.get(body.data[value].images.low_resolution.url)
             .on('response', (res) ->
-            ).pipe(fs.createWriteStream('./images/instagram_saved.jpg'))
+            ).pipe(fs.createWriteStream('./instagram_saved.jpg'))
           tweet = """
             #{body.data[value].link}
             by Instagram@#{body.data[value].user.full_name}
@@ -48,7 +48,7 @@ module.exports = (robot) ->
           , 5000
         )
     }, (err, result) ->
-      b64img = fs.readFileSync('./images/instagram_saved.jpg', { encoding: 'base64' })
+      b64img = fs.readFileSync('./instagram_saved.jpg', { encoding: 'base64' })
       @clientForImage.post('media/upload', { media_data: b64img }, (err, data, res) ->
         mediaIdStr = data.media_id_string
         params = { status: result.search, media_ids: [mediaIdStr] }
