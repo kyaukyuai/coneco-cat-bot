@@ -5,10 +5,11 @@ request      = require('request')
 fs           = require('fs')
 twit         = require('twit')
 async        = require('async')
+sleep        = require('sleep')
 
 # for rakuten webservice
-searchWordArray = ['猫 ぬいぐるみ','猫 雑貨','猫 キーホルダー','猫 インテリア', 'ねこ ぬいぐるみ']
-sortArray       = ['-reviewAverage','-reviewCount','-itemPrice','+itemPrice','-updateTimestamp','standard']
+searchWordArray = ['猫 ぬいぐるみ','猫 雑貨','猫 キーホルダー','猫 雑貨 グッズ', 'ねこ ぬいぐるみ', 'ねこあつめ', 'ねこあつめ ストラップ', 'ねこあつめキャラレシピ']
+sortArray       = ['-reviewAverage','-reviewCount','standard']
 affiliateId     = '0e2a74f8.b705f347.0e2a74f9.ce1173da'
 applicationId   = 'bfc5bca21a7bac85a197a29ebeab80dd'
 
@@ -40,9 +41,7 @@ module.exports = (robot) ->
           afl_url     = body.Items[value].Item.affiliateUrl
           image_url_1 = body.Items[value].Item.mediumImageUrls[0].imageUrl
           image_url_2 = if body.Items[value].Item.mediumImageUrls[1] then body.Items[value].Item.mediumImageUrls[1].imageUrl else ''
-          console.log(#{afl_url})
-          console.log(#{image_url_1})
-          console.log(#{image_url_2})
+          console.log("#{afl_url}")
           request.get(image_url_1)
             .on('response', (res) ->
             ).pipe(fs.createWriteStream('./rakuten_saved_1.jpg'))
@@ -50,14 +49,22 @@ module.exports = (robot) ->
             request.get(image_url_2)
               .on('response', (res) ->
               ).pipe(fs.createWriteStream('./rakuten_saved_2.jpg'))
-          tweet = """
-            【#{searchWord} グッズ】
-            #{item_price}
-            #{catch_copy}...
-            #{afl_url}
-            \#rakuten
-          """
-          callback(null, tweet)
+          url = "https://api-ssl.bitly.com/v3/shorten?access_token=08b4f712b24881736a78288f7a7795ef81011944&longUrl=#{afl_url}"
+          bitly_client = request_json.createClient(url)
+          bitly_client.get('', (err, res, body) ->
+            console.log("#{body}")
+            afl_url = body.data.url
+            console.log("#{afl_url}")
+            tweet = """
+              【#{searchWord} グッズ】
+              #{item_price}
+              #{catch_copy}...
+              #{afl_url}
+              \#rakuten
+            """
+            callback(null, tweet)
+          )
+          sleep.sleep(5)
         )
       post: (callback) ->
         setTimeout(
@@ -80,7 +87,7 @@ module.exports = (robot) ->
     )
 
   cronjob = new cronJob(
-    cronTime: '0 * * * * *'
+    cronTime: '0 0 9,23 * * *'
     start: true
     timeZone: "Asia/Tokyo"
     onTick: ->
