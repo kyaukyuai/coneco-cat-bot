@@ -27,7 +27,6 @@ module.exports = (robot) ->
       search: (callback) ->
         rakutenUrl = 'https://app.rakuten.co.jp/services/api/IchibaItem/Search/20140222?format=json'
         rakutenUrl += '&affiliateId=' + affiliateId + '&applicationId=' + applicationId
-#        rakutenUrl += '&applicationId=' + applicationId
         searchWord = random searchWordArray
         rakutenUrl += '&keyword=' + encodeURIComponent(searchWord)
         rakutenUrl += '&sort=' + encodeURIComponent(random sortArray)
@@ -41,6 +40,9 @@ module.exports = (robot) ->
           afl_url     = body.Items[value].Item.affiliateUrl
           image_url_1 = body.Items[value].Item.mediumImageUrls[0].imageUrl
           image_url_2 = if body.Items[value].Item.mediumImageUrls[1] then body.Items[value].Item.mediumImageUrls[1].imageUrl else ''
+          console.log(#{afl_url})
+          console.log(#{image_url_1})
+          console.log(#{image_url_2})
           request.get(image_url_1)
             .on('response', (res) ->
             ).pipe(fs.createWriteStream('./rakuten_saved_1.jpg'))
@@ -78,7 +80,7 @@ module.exports = (robot) ->
     )
 
   cronjob = new cronJob(
-    cronTime: '0 0 8,16 * * *'
+    cronTime: '0 * * * * *'
     start: true
     timeZone: "Asia/Tokyo"
     onTick: ->
